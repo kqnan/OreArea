@@ -1,0 +1,10 @@
+name: OreArea
+version: '${project.version}'
+main: me.kqn.orearea.OreArea
+api-version: 1.18
+depend:
+  - ProtocolLib
+  - ItemsAdder
+commands:
+  oa:
+    description: 命令
