@@ -10,9 +10,10 @@ public abstract class AbstractBuff {
     static {
         buffTranslation.put("pepper","辣椒");
         buffTranslation.put("corn","玉米");
-        buffTranslation.put("grape","芒果");
-        buffTranslation.put("garlic","菠萝");
+        buffTranslation.put("grape","葡萄");
+        buffTranslation.put("garlic","大蒜");
     }
+    public int duration=1200;
     public int currentBUFFLevel=0;
     public String id;
     public BukkitTask currentBUFFTask=null;

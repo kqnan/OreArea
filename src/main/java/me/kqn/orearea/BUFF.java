@@ -24,13 +24,16 @@ public void applyBuff(PlayerItemConsumeEvent event){
         String level=star;
       //  if(level.equalsIgnoreCase(""))level="1";
         String buffname=id.split("_")[0];
-        if(metaData.currentBUFF.containsKey(buffname)){
-            metaData.currentBUFF.get(buffname).currentBUFFLevel=Integer.parseInt(level);
 
+        if(metaData.currentBUFF.containsKey(buffname)){
+
+            metaData.currentBUFF.get(buffname).currentBUFFLevel=Integer.parseInt(level);
             metaData.currentBUFF.get(buffname).onEat(metaData);
         }
         else {
-            metaData.currentBUFF.put(buffname,AbstractBuff.getInstance(id.split("_")[0].toUpperCase(),Integer.parseInt(level)));
+            AbstractBuff buff=AbstractBuff.getInstance(id.split("_")[0].toUpperCase(),Integer.parseInt(level));
+            if(buff==null)return;
+            metaData.currentBUFF.put(buffname,buff);
 
             if(metaData.currentBUFF.get(buffname)!=null)metaData.currentBUFF.get(buffname).onEat(metaData);
         }
@@ -40,7 +43,7 @@ public void applyBuff(PlayerItemConsumeEvent event){
             metaData.currentBUFF.get(buffname).currentBUFFTask=Bukkit.getScheduler().runTaskLater(OreArea.instance,()->{
                 metaData.currentBUFF.remove(buffname);
 
-            },1200);
+            },metaData.currentBUFF.get(buffname).duration);
 
         }
 

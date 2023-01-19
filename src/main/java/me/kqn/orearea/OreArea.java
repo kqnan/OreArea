@@ -80,12 +80,12 @@ public final class OreArea extends JavaPlugin implements Listener {
    public static World world=null;
     String enableworld="world_spelunker_spelunker";
 
- //   Treasure tr;
+    Treasure tr;
     public static GlowAPI glowAPI=null;
     @Override
     public void onEnable() {
         // Plugin startup logic
-        Player player1=Bukkit.getPlayer("Kurt_Kong");
+
 
         world=Bukkit.getWorld(enableworld);
         LevelStorage.read();
@@ -97,15 +97,15 @@ public final class OreArea extends JavaPlugin implements Listener {
 
         Bukkit.getPluginManager().registerEvents(new BUFF(),this);
         Bukkit.getPluginManager().registerEvents(this,this);
-      //  tr=new Treasure();
+        tr=new Treasure();
        // Bukkit.getPluginManager().registerEvents(tr,this);
-       // Bukkit.getPluginCommand("oa").setExecutor(tr);
+        Bukkit.getPluginCommand("oa").setExecutor(tr);
         PotionEffect fanwei=new PotionEffect(PotionEffectType.CONFUSION,200,5);
         PotionEffect slow=new PotionEffect(PotionEffectType.SLOW,200,5);
         PotionEffect tired=new PotionEffect(PotionEffectType.SLOW_DIGGING,200,10);
         PotionEffect nightversion=new PotionEffect(PotionEffectType.NIGHT_VISION,400,1);
-        //定时保存等级数据
-        Bukkit.getScheduler().runTaskTimer(this, ()->{
+        //定时保存等级数据 异步保存
+        Bukkit.getScheduler().runTaskTimerAsynchronously(this, ()->{
             Bukkit.getLogger().info("矿区数据保存任务开始");
             LevelStorage.save();
 
@@ -130,6 +130,7 @@ public final class OreArea extends JavaPlugin implements Listener {
             }
             for (Map.Entry<String, PlayerMetaData> playerPlayerMetaDataEntry : data.entrySet()) {
                 Player player=Bukkit.getPlayer(playerPlayerMetaDataEntry.getKey());
+
                 PlayerMetaData metaData=playerPlayerMetaDataEntry.getValue();
                 if(player==null||!player.isOnline()){
                     //离线后1分钟恢复5点体力
@@ -140,7 +141,7 @@ public final class OreArea extends JavaPlugin implements Listener {
                     }
                     continue;
                 }
-
+              //  System.out.println(player.getName()+"   "+(metaData.board==null));
                 if(metaData.board==null||metaData.board.isDeleted()){
                     metaData.board=new FastBoard(player);
                 }
@@ -228,7 +229,7 @@ public final class OreArea extends JavaPlugin implements Listener {
     public void onQuit(PlayerQuitEvent event){
         if(data.containsKey(event.getPlayer().getName())){
             data.get(event.getPlayer().getName()).board.delete();
-            data.get(event.getPlayer().getName()).bossBar.removeAll();
+           // data.get(event.getPlayer().getName()).bossBar.removeAll();
         }
     }
     @EventHandler

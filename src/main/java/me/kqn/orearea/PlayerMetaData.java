@@ -34,7 +34,7 @@ public class PlayerMetaData {
     public double walkspped=0.1;
     public double swimspeed=0;
     public FastBoard board=null;
-    public BossBar bossBar=null;
+    //public BossBar bossBar=null;
 
 public PlayerMetaData(Player player,int level,int exp){
     this.player=player;

@@ -95,75 +95,75 @@ public class Treasure implements Listener, CommandExecutor {
     ArrayList<Block> currentTr=new ArrayList<>();
     ArrayList<Material> whitelistblock=new ArrayList<>(Arrays.asList(Material.STONE,Material.GRANITE,Material.DIRT,Material.GRASS_BLOCK,Material.DEEPSLATE));
     public int lifetime=200;
-    public void Start(int radius,int interval_sec,int chestPerPlayer,String enableworld){
-        if(task!=null)task.cancel();
-        World world=Bukkit.getWorld(enableworld);
-        if(world==null)return;
-
-        task=Bukkit.getScheduler().runTaskTimer(OreArea.instance,()->{
-
-            for (Block location : currentTr) {
-                location.setType(Material.STONE);
-            }
-
-            for (Player player : world.getPlayers()) {
-                for(int i=0;i<chestPerPlayer;i++){
-                    int cnt=0;
-                    while (cnt<100){
-                        int dx=random.nextInt(radius*2)-radius;
-                        int dy=random.nextInt(radius*2)-radius;
-                        int dz=random.nextInt(radius*2)-radius;
-                        Location loc=player.getLocation().add(dx,dy,dz);
-
-                        if(whitelistblock.contains(loc.getBlock().getType())&&world.getChunkAt(loc).isLoaded()){
-                            GenerateChest(loc);
-                            break;
-                        }
-                        cnt++;
-                    }
-
-                }
-            }
-            for (Player player:world.getPlayers()){
-                Block chest=null;
-                double dis=999999;
-                for (Block block : currentTr) {
-                    double tmp=block.getLocation().distance(player.getLocation());
-                    if(dis>tmp){
-                        dis=tmp;
-                        chest=block;
-                    }
-                }
-               // player.sendMessage(chest.getLocation().toString());
-                OreArea.data.get(player.getName()).nearbyTreasure=chest;
-            }
-
-            broadcast("宝箱已重新生成",enableworld);
-        },40,interval_sec* 20L);
-        int detectradius=100;
-        tipTask=Bukkit.getScheduler().runTaskTimer(OreArea.instance,()->{
-            for (Player player : world.getPlayers()) {
-                if(OreArea.data.get(player.getName()).nearbyTreasure==null)continue;
-                if(OreArea.data.get(player.getName()).nearbyTreasure.getType().equals(Material.CHEST)){
-                    OreArea.data.get(player.getName()).bossBar.setTitle("附近的宝藏距离："+(int)player.getLocation().distance(OreArea.data.get(player.getName()).nearbyTreasure.getLocation()));
-                }
-                else {
-                    Block chest=null;
-                    double dis=999999;
-                    for (Block block : currentTr) {
-                        double tmp=block.getLocation().distance(player.getLocation());
-                        if(dis>tmp){
-                            dis=tmp;
-                            chest=block;
-                        }
-                    }
-                    OreArea.data.get(player.getName()).nearbyTreasure=chest;
-                }
-            }
-        },100,20);
-
-
-    }
+//    public void Start(int radius,int interval_sec,int chestPerPlayer,String enableworld){
+//        if(task!=null)task.cancel();
+//        World world=Bukkit.getWorld(enableworld);
+//        if(world==null)return;
+//
+//        task=Bukkit.getScheduler().runTaskTimer(OreArea.instance,()->{
+//
+//            for (Block location : currentTr) {
+//                location.setType(Material.STONE);
+//            }
+//
+//            for (Player player : world.getPlayers()) {
+//                for(int i=0;i<chestPerPlayer;i++){
+//                    int cnt=0;
+//                    while (cnt<100){
+//                        int dx=random.nextInt(radius*2)-radius;
+//                        int dy=random.nextInt(radius*2)-radius;
+//                        int dz=random.nextInt(radius*2)-radius;
+//                        Location loc=player.getLocation().add(dx,dy,dz);
+//
+//                        if(whitelistblock.contains(loc.getBlock().getType())&&world.getChunkAt(loc).isLoaded()){
+//                            GenerateChest(loc);
+//                            break;
+//                        }
+//                        cnt++;
+//                    }
+//
+//                }
+//            }
+//            for (Player player:world.getPlayers()){
+//                Block chest=null;
+//                double dis=999999;
+//                for (Block block : currentTr) {
+//                    double tmp=block.getLocation().distance(player.getLocation());
+//                    if(dis>tmp){
+//                        dis=tmp;
+//                        chest=block;
+//                    }
+//                }
+//               // player.sendMessage(chest.getLocation().toString());
+//                OreArea.data.get(player.getName()).nearbyTreasure=chest;
+//            }
+//
+//            broadcast("宝箱已重新生成",enableworld);
+//        },40,interval_sec* 20L);
+//        int detectradius=100;
+//        tipTask=Bukkit.getScheduler().runTaskTimer(OreArea.instance,()->{
+//            for (Player player : world.getPlayers()) {
+//                if(OreArea.data.get(player.getName()).nearbyTreasure==null)continue;
+//                if(OreArea.data.get(player.getName()).nearbyTreasure.getType().equals(Material.CHEST)){
+//                    OreArea.data.get(player.getName()).bossBar.setTitle("附近的宝藏距离："+(int)player.getLocation().distance(OreArea.data.get(player.getName()).nearbyTreasure.getLocation()));
+//                }
+//                else {
+//                    Block chest=null;
+//                    double dis=999999;
+//                    for (Block block : currentTr) {
+//                        double tmp=block.getLocation().distance(player.getLocation());
+//                        if(dis>tmp){
+//                            dis=tmp;
+//                            chest=block;
+//                        }
+//                    }
+//                    OreArea.data.get(player.getName()).nearbyTreasure=chest;
+//                }
+//            }
+//        },100,20);
+//
+//
+//    }
     public void stop(){
         if(task!=null)task.cancel();
         if(tipTask!=null)tipTask.cancel();
@@ -195,10 +195,10 @@ public class Treasure implements Listener, CommandExecutor {
             }
         }
     }
-    public void sendBossBar(String msg,Player player){
-        BossBar bossBar=OreArea.data.get(player.getName()).bossBar;
-        if(bossBar!=null){
-            bossBar.setTitle(msg);
-        }
-    }
+//    public void sendBossBar(String msg,Player player){
+//        BossBar bossBar=OreArea.data.get(player.getName()).bossBar;
+//        if(bossBar!=null){
+//            bossBar.setTitle(msg);
+//        }
+//    }
 }

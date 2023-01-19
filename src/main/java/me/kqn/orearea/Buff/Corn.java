@@ -11,25 +11,21 @@ public class Corn extends AbstractBuff{
     }
     @Override
     public void onEat(PlayerMetaData metaData) {
+        cache[0]=1;
         switch (currentBUFFLevel){
             case 1:
-                cache[0]+=0.05;
-                cache[1]+=0.1;
+                duration=30*20;
                 break;
             case 2:
-                cache[0]+=0.2;
-                cache[1]+=0.2;
+                duration=40*20;
                 break;
             case 3:
-                cache[0]+=0.4;
-                cache[1]+=0.3;
+                duration=60*20;
         }
-
     }
 
     @Override
     public void onBuffProcess(PlayerMetaData metaData) {
-        metaData.swimspeed=Math.min(metaData.swimspeed*(1+cache[0]),OreArea.instance.swimSpeedLevel[OreArea.instance.swimSpeedLevel.length-1]);
-        metaData.swimConsume=metaData.swimConsume*(1+cache[1]);
+        metaData.sprintConsume=0;
     }
 }
